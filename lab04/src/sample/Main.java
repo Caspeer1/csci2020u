@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Main extends Application {
