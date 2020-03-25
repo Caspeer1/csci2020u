@@ -1,23 +1,23 @@
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import java.io.InputStreamReader;
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.event.ActionEvent;
 import java.io.BufferedReader;
 import javafx.geometry.Insets;
 import java.net.ServerSocket;
 import java.io.IOException;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.net.Socket;
 
-public class Test3 extends Application {
+public class Server extends Application {
 
     TextArea textArea;
 
@@ -25,11 +25,7 @@ public class Test3 extends Application {
     public void start(Stage primaryStage) {
         VBox main = new VBox(5);
         main.setPadding(new Insets(10, 10, 10, 10));
-        /*
-        GridPane gridPane = new GridPane();
-        gridPane.setPadding(new Insets(10, 10, 10, 10));
-        gridPane.setVgap(20);
-         */
+
         // creates a textArea
         textArea = new TextArea();
         textArea.setFocusTraversable(false);
@@ -41,12 +37,6 @@ public class Test3 extends Application {
         exitBtn.setOnAction(evt -> System.exit(0));
 
         main.getChildren().addAll(textArea, getConsole(), exitBtn);
-        /*
-        gridPane.add(textArea, 0, 0);
-        gridPane.add(consoleLbl, 0, 1);
-        gridPane.add(consoleFld, 1, 1);
-        gridPane.add(exitBtn, 0, 2);
-         */
 
         Thread t = new Thread(new handleConnections());
         t.start();
@@ -63,17 +53,25 @@ public class Test3 extends Application {
         // creates a console chat
         Label consoleLbl = new Label("Console: ");
         TextField consoleFld = new TextField();
+
         Button consoleSend = new Button("Send");
         consoleSend.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 String message = "Admin: " + consoleFld.getText();
+                System.out.println("Message being read from Console: " + message);
                 consoleFld.clear();
+
                 textArea.appendText(message + "\n");
             }
         });
 
-        console.getChildren().addAll(consoleLbl, consoleFld, consoleSend);
+        Button clearText = new Button("Clear Text");
+        clearText.setOnAction((ActionEvent event) -> {
+            textArea.clear();
+        });
+
+        console.getChildren().addAll(consoleLbl, consoleFld, consoleSend, clearText);
 
         return console;
     }
