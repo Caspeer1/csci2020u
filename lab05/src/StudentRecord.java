@@ -1,3 +1,7 @@
+/*
+  Eric CB-Lamontagne
+  100700304
+ */
 public class StudentRecord {
     private String studentID;
     private float midterm;
